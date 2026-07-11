@@ -1,0 +1,51 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    container_name: pai-sfa-app
+    working_dir: /var/www/html
+    volumes:
+      - ./src:/var/www/html
+    depends_on:
+      db:
+        condition: service_healthy
+
+  web:
+    image: nginx:1.28-alpine
+    container_name: pai-sfa-nginx
+    ports:
+      - '8080:80'
+    volumes:
+      - ./src:/var/www/html
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app
+
+  db:
+    image: postgres:17
+    container_name: pai-sfa-db
+    environment:
+      POSTGRES_DB: pai_sfa
+      POSTGRES_USER: pai
+      POSTGRES_PASSWORD: password
+    ports:
+      - '5433:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U pai -d pai_sfa']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  node:
+    image: node:22-alpine
+    container_name: pai-sfa-node
+    working_dir: /var/www/html
+    volumes:
+      - ./src:/var/www/html
+    tty: true
+
+volumes:
+  postgres_data:
