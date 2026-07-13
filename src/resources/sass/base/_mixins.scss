@@ -1,0 +1,147 @@
+@use "sass:math";
+@use "variables" as v; // 【連動】さっき作ったvariablesを読み込む
+@use "functions" as f; // 【連動】さっき作ったfunctionsを読み込む
+
+// ==========================================================================
+// 1. メディアクエリ（レスポンシブ）
+// ==========================================================================
+// 指定値以下（〜pxまで）のスタイル
+@mixin max-screen($breakpoint) {
+    // 【修正】v.$breakpoints マップから取得し、生数値が来たらそのまま使う
+    $value: if(
+        map-has-key(v.$breakpoints, $breakpoint),
+        map-get(v.$breakpoints, $breakpoint),
+        if(
+            type-of($breakpoint) == "number" and unitless($breakpoint),
+            #{$breakpoint}px,
+            $breakpoint
+        )
+    );
+    @media screen and (max-width: $value) {
+        @content;
+    }
+}
+
+// 指定値以上（px〜から）のスタイル
+@mixin min-screen($breakpoint) {
+    $value: if(
+        map-has-key(v.$breakpoints, $breakpoint),
+        map-get(v.$breakpoints, $breakpoint),
+        if(
+            type-of($breakpoint) == "number" and unitless($breakpoint),
+            #{$breakpoint}px,
+            $breakpoint
+        )
+    );
+    @media screen and (min-width: $value) {
+        @content;
+    }
+}
+
+// 指定範囲内（px〜pxまで）のスタイル
+@mixin screen($min_breakpoint, $max_breakpoint) {
+    $min_value: if(
+        map-has-key(v.$breakpoints, $min_breakpoint),
+        map-get(v.$breakpoints, $min_breakpoint),
+        if(
+            type-of($min_breakpoint) == "number" and unitless($min_breakpoint),
+            #{$min_breakpoint}px,
+            $min_breakpoint
+        )
+    );
+    $max_value: if(
+        map-has-key(v.$breakpoints, $max_breakpoint),
+        map-get(v.$breakpoints, $max_breakpoint),
+        if(
+            type-of($max_breakpoint) == "number" and unitless($max_breakpoint),
+            #{$max_breakpoint}px,
+            $max_breakpoint
+        )
+    );
+    @media screen and (min-width: $min_value) and (max-width: $max_value) {
+        @content;
+    }
+}
+
+// ==========================================================================
+// 2. フォント指定（厳選5パターン対応 ＆ 関数連動）
+// ==========================================================================
+// 登録した名前（"body"など）でも、生数値（16など）でもどっちでも動きます。
+@mixin font-set($size-key, $line-height: null, $letter_spacing: null) {
+    // 【修正】マップにキーがあればそこからサイズ取得、なければ生数値を使用
+    $font_size: map-get(v.$font-sizes, $size-key);
+    @if not $font_size {
+        $font_size: $size-key;
+    }
+
+    // 【修正】f.rem() 関数を使って一発換算
+    font-size: f.rem($font_size);
+
+    @if $line_height != null {
+        line-height: math.div($line_height, $font_size);
+    }
+
+    // 【修正】f.ls() 関数を使ってFigmaの文字間隔数値をそのままemに換算
+    @if $letter_spacing != null {
+        letter-spacing: f.ls($letter_spacing);
+    }
+
+    @content;
+}
+
+// ==========================================================================
+// 3. レイアウト・位置調整
+// ==========================================================================
+// Flexboxでの上下左右中央寄せ
+@mixin centering() {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+// 疑似要素（矢印やアイコンなどの絶対配置用）
+@mixin set-pseudo($width: null, $height: null, $image: null) {
+    content: "";
+    display: inline-block;
+    position: absolute;
+
+    // 【修正】f.rem() を通すことで、生数値を打っても自動でrem換算されるように
+    width: if($width and type-of($width) == "number", f.rem($width), $width);
+    height: if(
+        $height and type-of($height) == "number",
+        f.rem($height),
+        $height
+    );
+
+    top: 50%;
+    transform: translateY(-50%);
+
+    @if $image != null {
+        background: url($image) no-repeat center center;
+        background-size: contain;
+    }
+
+    @content;
+}
+
+// ==========================================================================
+// 4. テキスト・メディアのコントロール
+// ==========================================================================
+// 複数行テキストのあふれを「…」に省略
+@mixin line-clamp($lines: 3) {
+    display: -webkit-box;
+    -webkit-line-clamp: $lines;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+// レスポンシブ対応の縦横比維持
+@mixin aspect-ratio($width, $height) {
+    aspect-ratio: #{$width} / #{$height};
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+}

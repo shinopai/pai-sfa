@@ -1,0 +1,79 @@
+@use "variables" as v;
+@use "functions" as f;
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    height: 100%;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    font-family: "Alexandria", sans-serif;
+    line-height: 1.5;
+    color: f.color("text-main"); // 【修正】定数から#1e293bを呼び出し
+    background-color: f.color(
+        "bg-sub"
+    ); // 【修正】定数からシステムのベース背景色（#f4f7f9）を適用
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul,
+ol {
+    list-style: none;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    vertical-align: bottom;
+}
+
+input,
+button,
+textarea,
+select {
+    font: inherit;
+    color: inherit;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+button,
+[type="button"],
+[type="submit"] {
+    cursor: pointer;
+}
+
+textarea {
+    resize: vertical;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: f.color(
+        "text-sub"
+    ); // 【修正】直書きの#aaaから、統一感のある補足文字色（#64748b）へ連動
+    opacity: 1;
+}

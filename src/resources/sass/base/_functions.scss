@@ -1,0 +1,75 @@
+@use "sass:math";
+@use "variables" as v; // 【追加】variablesファイルと連携するため
+
+// ==========================================================================
+// 【関数三種の神器】モダンWeb制作・自動換算関数集（システム最適化版）
+// ==========================================================================
+
+// 単位を取り除く（数値だけにする）ための社内用ヘルパー関数
+@function _strip-unit($number) {
+    @if type-of($number) == "number" and not unitless($number) {
+        @return math.div($number, $number * 0 + 1);
+    }
+    @return $number;
+}
+
+// --------------------------------------------------------------------------
+// 1. em() : 要素のフォントサイズを基準に、余白やサイズをemに換算
+// --------------------------------------------------------------------------
+@function em($size, $base-font-size, $precision: 3) {
+    // 【修正】単位付きで入力されてもバグらないように数値を綺麗にする
+    $size: _strip-unit($size);
+    $base-font-size: _strip-unit($base-font-size);
+
+    $value: math.div($size, $base-font-size);
+    $factor: math.pow(10, $precision);
+    @return math.div(math.round($value * $factor), $factor) * 1em;
+}
+
+// --------------------------------------------------------------------------
+// 2. ls() : Figmaの文字間隔（Letter-spacing）数値をそのままemに換算
+// --------------------------------------------------------------------------
+@function ls($figma-value, $precision: 3) {
+    $figma-value: _strip-unit($figma-value); // 【修正】単位対策
+
+    $value: math.div($figma-value, 1000);
+    $factor: math.pow(10, $precision);
+    @return math.div(math.round($value * $factor), $factor) * 1em;
+}
+
+// --------------------------------------------------------------------------
+// 3. rem() : ルート（html=16px）を基準に、px数値をremに一発換算
+// --------------------------------------------------------------------------
+@function rem($px-value, $precision: 3) {
+    $px-value: _strip-unit(
+        $px-value
+    ); // 【修正】単位対策（rem(16px)でもrem(16)でも動く）
+
+    $value: math.div($px-value, 16);
+    $factor: math.pow(10, $precision);
+    @return math.div(math.round($value * $factor), $factor) * 1rem;
+}
+
+// ==========================================================================
+// 【システム専用】ショートカット用関数（記述を短くする）
+// ==========================================================================
+
+// 4. color() : カラーマップから安全に色を取得する
+@function color($key) {
+    @if map-has-key(v.$colors, $key) {
+        @return map-get(v.$colors, $key);
+    } @else {
+        @warn "引数の '#{$key}' は $colors マップに登録されてないよ！";
+        @return null;
+    }
+}
+
+// 5. radius() : 角丸マップから安全にサイズを取得する
+@function radius($key) {
+    @if map-has-key(v.$radii, $key) {
+        @return map-get(v.$radii, $key);
+    } @else {
+        @warn "引数の '#{$key}' は $radii マップに登録されてないよ！";
+        @return null;
+    }
+}
