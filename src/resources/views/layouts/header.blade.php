@@ -5,19 +5,23 @@
     </a>
 
     <nav class="header__nav u-flex" aria-label="メニュー">
-      <a class="header__link {{ request()->routeIs('dashboard') ? 'is-active' : '' }}" href="{{ route('dashboard') }}">
+      <a href="{{ route('dashboard') }}" class="header__link {{ request()->routeIs('dashboard') ? 'is-active' : '' }}">
         ダッシュボード
       </a>
-      <a class="header__link" href="#">
+
+      <a href="#" class="header__link {{ request()->routeIs('customers.*') ? 'is-active' : '' }}">
         顧客
       </a>
-      <a class="header__link" href="#">
+
+      <a href="#" class="header__link {{ request()->routeIs('deals.*') ? 'is-active' : '' }}">
         商談
       </a>
-      <a class="header__link" href="#">
+
+      <a href="#" class="header__link {{ request()->routeIs('activities.*') ? 'is-active' : '' }}">
         営業活動
       </a>
-      <a class="header__link" href="#">
+
+      <a href="#" class="header__link {{ request()->routeIs('tasks.*') ? 'is-active' : '' }}">
         タスク
       </a>
       {{-- @if (auth()->user()->isAdmin())

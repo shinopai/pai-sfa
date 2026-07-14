@@ -14,7 +14,9 @@
   @include('layouts.header')
 
   <main class="l-main">
-    {{ $slot }}
+    <div class="u-wrap">
+      {{ $slot }}
+    </div>
   </main>
 </body>
 

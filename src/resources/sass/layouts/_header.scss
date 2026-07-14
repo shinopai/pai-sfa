@@ -38,6 +38,21 @@
     transition: opacity 0.2s ease;
 
     @include font-set("body");
+    &.is-active {
+        font-weight: 700;
+    }
+
+    &.is-active::after {
+        content: "";
+        position: absolute;
+        right: 0;
+        bottom: rem(-16);
+        left: 0;
+
+        height: rem(3);
+        background-color: color("text-white");
+        border-radius: radius("full");
+    }
 }
 
 .header__link:hover {
