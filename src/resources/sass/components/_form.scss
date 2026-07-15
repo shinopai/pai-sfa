@@ -1,0 +1,155 @@
+@use "../base" as *;
+
+/* ==========================================================================
+   Form Card
+========================================================================== */
+
+.form-card {
+    width: 100%;
+    max-width: rem(480);
+    padding: rem(40);
+    background-color: color(bg-main);
+    border: rem(1) solid color(border);
+    border-radius: radius(md);
+}
+
+/* ==========================================================================
+   Form Header
+========================================================================== */
+
+.form-title {
+    margin-bottom: rem(32);
+    text-align: center;
+
+    @include font-set(heading);
+}
+
+.form-description {
+    margin-bottom: rem(32);
+    text-align: center;
+    color: color(text-sub);
+
+    @include font-set(body);
+}
+
+/* ==========================================================================
+   Form
+========================================================================== */
+
+.form-group {
+    margin-bottom: rem(24);
+}
+
+.form-label {
+    display: inline-block;
+    margin-bottom: rem(8);
+    font-weight: 600;
+
+    @include font-set(body);
+}
+
+.form-required {
+    margin-left: rem(4);
+    color: #dc2626;
+
+    @include font-set(note);
+}
+
+/* ==========================================================================
+   Input
+========================================================================== */
+
+.form-input,
+.form-select,
+.form-textarea {
+    width: 100%;
+    padding: rem(12) rem(16);
+    border: rem(1) solid color(border);
+    border-radius: radius(sm);
+    background-color: color(bg-main);
+
+    @include font-set(body);
+
+    transition:
+        border-color 0.2s,
+        box-shadow 0.2s;
+
+    &:focus {
+        outline: none;
+        border-color: color(primary);
+    }
+
+    &::placeholder {
+        color: color(text-sub);
+    }
+}
+
+.form-textarea {
+    min-height: rem(120);
+    resize: vertical;
+}
+
+/* ==========================================================================
+   Checkbox / Radio
+========================================================================== */
+
+.form-check {
+    display: flex;
+    align-items: center;
+    gap: rem(8);
+}
+
+.form-checkbox,
+.form-radio {
+    cursor: pointer;
+}
+
+.form-check-label {
+    cursor: pointer;
+
+    @include font-set(body);
+}
+
+/* ==========================================================================
+   Error
+========================================================================== */
+
+.form-error {
+    margin-top: rem(6);
+    color: #dc2626;
+
+    @include font-set(note);
+}
+
+/* ==========================================================================
+   Actions
+========================================================================== */
+
+.form-actions {
+    margin-top: rem(32);
+}
+
+/* ==========================================================================
+   Button
+========================================================================== */
+
+.form-button {
+    width: 100%;
+    padding: rem(14);
+    border: none;
+    border-radius: radius(sm);
+    background-color: color(primary);
+    color: color(text-white);
+    cursor: pointer;
+    transition: opacity 0.2s;
+
+    @include font-set(body);
+
+    &:hover {
+        opacity: 0.9;
+    }
+}
+
+.form-button-secondary {
+    background-color: color(text-sub);
+}

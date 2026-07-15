@@ -15,7 +15,7 @@
 
   <main class="l-main">
     <div class="u-wrap">
-      {{ $slot }}
+      @yield('content')
     </div>
   </main>
 </body>

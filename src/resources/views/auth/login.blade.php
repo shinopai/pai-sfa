@@ -1,47 +1,48 @@
-<x-guest-layout>
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+@extends('layouts.app')
 
-    <form method="POST" action="{{ route('login') }}">
+@section('content')
+  <section class="p-login">
+    <div class="form-card">
+      <h1 class="form-title">ログイン</h1>
+
+      <form method="POST" action="{{ route('login') }}" novalidate>
         @csrf
 
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+        <div class="form-group">
+          <label for="email" class="form-label">メールアドレス</label>
+
+          <input id="email" class="form-input" type="email" name="email" value="{{ old('email') }}"
+            autocomplete="username" autofocus required>
+
+          @error('email')
+            <p class="form-error">{{ $message }}</p>
+          @enderror
         </div>
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+        <div class="form-group">
+          <label for="password" class="form-label">パスワード</label>
 
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
+          <input id="password" class="form-input" type="password" name="password" autocomplete="current-password"
+            required>
 
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+          @error('password')
+            <p class="form-error">{{ $message }}</p>
+          @enderror
         </div>
 
-        <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
-                <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
-            </label>
+        <div class="form-group">
+          <label class="form-check">
+            <input class="form-checkbox" type="checkbox" name="remember">
+            <span class="form-check-label">ログイン状態を保持</span>
+          </label>
         </div>
 
-        <div class="flex items-center justify-end mt-4">
-            @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
-                </a>
-            @endif
-
-            <x-primary-button class="ms-3">
-                {{ __('Log in') }}
-            </x-primary-button>
+        <div class="form-actions">
+          <button type="submit" class="form-button">
+            ログイン
+          </button>
         </div>
-    </form>
-</x-guest-layout>
+      </form>
+    </div>
+  </section>
+@endsection

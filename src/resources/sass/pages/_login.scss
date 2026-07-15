@@ -1,0 +1,7 @@
+@use "../base" as *;
+
+.p-login {
+    min-height: calc(100vh - rem(120));
+
+    @include centering();
+}
