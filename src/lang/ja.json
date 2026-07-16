@@ -1,0 +1,23 @@
+{
+    "Login": "ログイン",
+    "Log in": "ログイン",
+    "Logout": "ログアウト",
+    "Register": "新規登録",
+    "Dashboard": "ダッシュボード",
+    "Email": "メールアドレス",
+    "Password": "パスワード",
+    "Remember me": "ログイン状態を保持する",
+    "Forgot your password?": "パスワードをお忘れですか？",
+    "Name": "氏名",
+    "Confirm Password": "パスワード（確認）",
+    "Profile": "プロフィール",
+    "Save": "保存",
+    "Cancel": "キャンセル",
+    "Delete": "削除",
+    "Edit": "編集",
+    "Create": "登録",
+    "Update": "更新",
+    "Search": "検索",
+    "Back": "戻る",
+    "Home": "ホーム"
+}
