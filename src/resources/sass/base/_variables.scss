@@ -81,7 +81,9 @@ $colors: (
     // 契約済み（背景）
     "status-blue-t": #4a6b82,
     // 契約済み（文字）
-    "status-dark": #999999 // 解約済み（背景）
+    "status-dark": #999999,
+    // 解約済み（背景）
+    "danger": #dc3545
 );
 
 // 6. 角丸（border-radius：厳選4パターン）

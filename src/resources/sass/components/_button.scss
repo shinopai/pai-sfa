@@ -1,0 +1,35 @@
+@use "../base" as *;
+
+.c-button {
+    display: inline-block;
+    padding: rem(8) rem(16);
+    border: 1px solid transparent;
+    border-radius: radius(md);
+
+    @include font-set(body);
+
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.2s ease;
+
+    &:hover {
+        opacity: 0.9;
+    }
+}
+
+.c-button--primary {
+    background: color(primary);
+    color: color(text-white);
+}
+
+.c-button--secondary {
+    background: color(bg-main);
+    border-color: color(border);
+    color: color(text-main);
+}
+
+.c-button--danger {
+    background: color(danger);
+    color: color(text-white);
+}

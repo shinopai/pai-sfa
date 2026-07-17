@@ -9,6 +9,15 @@
         ダッシュボード
       </a>
 
+      @auth
+        @if (auth()->user()->isAdmin())
+          <a href="{{ route('users.index') }}"
+            class="header__link {{ request()->routeIs('users.*') ? 'is-active' : '' }}">
+            ユーザー
+          </a>
+        @endif
+      @endauth
+
       <a href="#" class="header__link {{ request()->routeIs('customers.*') ? 'is-active' : '' }}">
         顧客
       </a>
@@ -24,11 +33,7 @@
       <a href="#" class="header__link {{ request()->routeIs('tasks.*') ? 'is-active' : '' }}">
         タスク
       </a>
-      {{-- @if (auth()->user()->isAdmin())
-            <a class="header__link" href="#">
-              ユーザー
-            </a>
-          @endif --}}
+
       <form method="POST" action="{{ route('logout') }}">
         @csrf
 
@@ -37,6 +42,5 @@
         </button>
       </form>
     </nav>
-
   </div>
 </header>

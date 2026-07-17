@@ -1,0 +1,49 @@
+@use "../base" as *;
+
+.c-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: color(bg-main);
+}
+
+.c-table th,
+.c-table td {
+    padding: rem(16);
+    border: 1px solid color(border);
+    text-align: left;
+    vertical-align: middle;
+}
+
+.c-table th {
+    @include font-set(note);
+    background: color(bg-sub);
+    color: color(text-main);
+}
+
+.c-table td {
+    @include font-set(body);
+    color: color(text-main);
+}
+
+.c-table tbody tr:hover {
+    background: color(bg-sub);
+}
+
+.c-table-actions {
+    gap: rem(8);
+}
+
+// .c-table-actions a,
+// .c-table-actions button {
+//     @include font-set(note);
+//     color: color(primary);
+//     text-decoration: none;
+//     background: none;
+//     border: none;
+//     cursor: pointer;
+// }
+
+// .c-table-actions button:hover,
+// .c-table-actions a:hover {
+//     text-decoration: underline;
+// }

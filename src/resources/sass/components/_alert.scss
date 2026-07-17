@@ -1,0 +1,29 @@
+@use "../base" as *;
+
+.c-alert {
+    margin-bottom: rem(24);
+    padding: rem(12) rem(16);
+
+    border: 1px solid transparent;
+    border-radius: radius(md);
+
+    @include font-set(body);
+}
+
+.c-alert--success {
+    color: color(success);
+    background: rgba(40, 167, 69, 0.1);
+    border-color: color(success);
+}
+
+.c-alert--error {
+    color: color(danger);
+    background: rgba(220, 53, 69, 0.1);
+    border-color: color(danger);
+}
+
+.c-alert--warning {
+    color: color(warning);
+    background: rgba(255, 193, 7, 0.15);
+    border-color: color(warning);
+}

@@ -1,0 +1,39 @@
+@use "../base" as *;
+
+.users {
+    padding: rem(32) 0;
+}
+
+.users__header {
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: rem(24);
+}
+
+.users__title {
+    @include font-set(heading);
+}
+
+.users__table {
+    overflow-x: auto;
+}
+
+.users__empty {
+    padding: rem(32);
+    text-align: center;
+    color: color(text-sub);
+}
+
+.users__pagination {
+    margin-top: rem(24);
+}
+
+.users__buttons {
+    justify-content: flex-end;
+    gap: rem(16);
+    margin-top: rem(32);
+}
+
+.users__form {
+    justify-content: center;
+}

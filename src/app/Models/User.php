@@ -18,6 +18,18 @@ class User extends Authenticatable
     use HasFactory, Notifiable;
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'name',
+        'email',
+        'role',
+        'password'
+    ];
+
+    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>
@@ -28,5 +40,11 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    // 管理者かどうか
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
     }
 }
