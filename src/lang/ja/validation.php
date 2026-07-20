@@ -68,7 +68,9 @@ return [
         'name' => '氏名',
         'email' => 'メールアドレス',
         'role' => '権限',
-        'password' => 'パスワード'
+        'password' => 'パスワード',
+        'company_name' => '会社名',
+        'contact_name' => '担当者名'
     ],
 
 ];

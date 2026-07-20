@@ -1,0 +1,39 @@
+@use "../base" as *;
+
+.customers {
+    padding: rem(32) 0;
+}
+
+.customers__header {
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: rem(24);
+}
+
+.customers__title {
+    @include font-set(heading);
+}
+
+.customers__table {
+    overflow-x: auto;
+}
+
+.customers__empty {
+    padding: rem(32);
+    text-align: center;
+    color: color(text-sub);
+}
+
+.customers__pagination {
+    margin-top: rem(24);
+}
+
+.customers__buttons {
+    justify-content: flex-end;
+    gap: rem(16);
+    margin-top: rem(32);
+}
+
+.customers__form {
+    justify-content: center;
+}

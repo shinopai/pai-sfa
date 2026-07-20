@@ -18,7 +18,8 @@
         @endif
       @endauth
 
-      <a href="#" class="header__link {{ request()->routeIs('customers.*') ? 'is-active' : '' }}">
+      <a href="{{ route('customers.index') }}"
+        class="header__link {{ request()->routeIs('customers.*') ? 'is-active' : '' }}">
         顧客
       </a>
 
