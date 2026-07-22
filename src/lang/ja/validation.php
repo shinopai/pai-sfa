@@ -70,7 +70,14 @@ return [
         'role' => '権限',
         'password' => 'パスワード',
         'company_name' => '会社名',
-        'contact_name' => '担当者名'
+        'contact_name' => '担当者名',
+        'customer_id' => '顧客',
+        'user_id' => '担当営業',
+        'title' => '商談名',
+        'amount' => '商談金額',
+        'status' => 'ステータス',
+        'expected_contract_date' => '契約予定日',
+        'memo' => '備考'
     ],
 
 ];

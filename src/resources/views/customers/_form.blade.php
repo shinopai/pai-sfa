@@ -8,7 +8,7 @@
       @method('PUT')
     @endisset
 
-    @if (auth()->user()->role === 'admin')
+    @if (auth()->user()->isAdmin())
       <div class="form-group">
         <label for="user_id" class="form-label">担当営業</label>
 

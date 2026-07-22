@@ -23,7 +23,7 @@
         顧客
       </a>
 
-      <a href="#" class="header__link {{ request()->routeIs('deals.*') ? 'is-active' : '' }}">
+      <a href="{{ route('deals.index') }}" class="header__link {{ request()->routeIs('deals.*') ? 'is-active' : '' }}">
         商談
       </a>
 

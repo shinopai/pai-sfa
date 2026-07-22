@@ -52,7 +52,7 @@ class CustomerController extends Controller
     public function store(StoreCustomerRequest $request)
     {
         Customer::create([
-            'user_id' => Auth::user()->role === 'admin'
+            'user_id' => Auth::user()->isAdmin()
                 ? $request->user_id
                 : Auth::id(),
             'company_name' => $request->company_name,
@@ -82,9 +82,11 @@ class CustomerController extends Controller
      */
     public function edit(Customer $customer)
     {
-        $users = User::where('role', 'sales')
+        $users = Auth::user()->isAdmin()
+            ? User::where('role', 'sales')
             ->orderBy('id')
-            ->get();
+            ->get()
+            : collect();
 
         return view('customers.edit', compact('customer', 'users'));
     }

@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\DealController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -24,6 +25,9 @@ Route::middleware('auth')->group(function () {
 
     // 顧客
     Route::resource('customers', CustomerController::class);
+
+    // 商談
+    Route::resource('deals', DealController::class);
 });
 
 // 管理者専用

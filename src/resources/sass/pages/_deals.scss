@@ -1,0 +1,39 @@
+@use "../base" as *;
+
+.deals {
+    padding: rem(32) 0;
+}
+
+.deals__header {
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: rem(24);
+}
+
+.deals__title {
+    @include font-set(heading);
+}
+
+.deals__table {
+    overflow-x: auto;
+}
+
+.deals__empty {
+    padding: rem(32);
+    text-align: center;
+    color: color(text-sub);
+}
+
+.deals__pagination {
+    margin-top: rem(24);
+}
+
+.deals__buttons {
+    justify-content: flex-end;
+    gap: rem(16);
+    margin-top: rem(32);
+}
+
+.deals__form {
+    justify-content: center;
+}
