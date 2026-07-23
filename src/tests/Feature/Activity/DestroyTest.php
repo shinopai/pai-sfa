@@ -1,0 +1,57 @@
+<?php
+
+use App\Models\Activity;
+use App\Models\Customer;
+use App\Models\Deal;
+use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+
+uses(RefreshDatabase::class);
+
+beforeEach(function () {
+    /** @var \App\Models\User $this->admin */
+    $this->admin = User::factory()->create([
+        'role' => 'admin',
+    ]);
+
+    /** @var \App\Models\User $this->sales */
+    $this->sales = User::factory()->create([
+        'role' => 'sales',
+    ]);
+
+    /** @var \App\Models\Customer $this->customer */
+    $this->customer = Customer::factory()->create([
+        'user_id' => $this->sales->id,
+    ]);
+
+    /** @var \App\Models\Deal $this->deal */
+    $this->deal = Deal::factory()->create([
+        'customer_id' => $this->customer->id,
+        'user_id' => $this->sales->id,
+    ]);
+
+    /** @var \App\Models\Activity $this->activity */
+    $this->activity = Activity::factory()->create([
+        'deal_id' => $this->deal->id,
+    ]);
+});
+
+it('ログイン済みユーザーは営業活動を削除できる', function () {
+    $response = $this
+        ->actingAs($this->admin)
+        ->delete(route('activities.destroy', $this->activity));
+
+    $response
+        ->assertRedirect(route('activities.index'))
+        ->assertSessionHas('success');
+
+    $this->assertDatabaseMissing('activities', [
+        'id' => $this->activity->id,
+    ]);
+});
+
+it('未ログインの場合はログイン画面へリダイレクトされる', function () {
+    $response = $this->delete(route('activities.destroy', $this->activity));
+
+    $response->assertRedirect(route('login'));
+});
