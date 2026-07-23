@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CustomerController;
@@ -24,10 +25,14 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // 顧客
-    Route::resource('customers', CustomerController::class);
+    Route::resource('customers', CustomerController::class)->except(['show']);
 
     // 商談
-    Route::resource('deals', DealController::class);
+    Route::resource('deals', DealController::class)->except(['show']);
+
+    // 活動
+    Route::resource('activities', ActivityController::class)
+        ->except(['show']);
 });
 
 // 管理者専用

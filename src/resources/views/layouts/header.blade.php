@@ -27,7 +27,8 @@
         商談
       </a>
 
-      <a href="#" class="header__link {{ request()->routeIs('activities.*') ? 'is-active' : '' }}">
+      <a href="{{ route('activities.index') }}"
+        class="header__link {{ request()->routeIs('activities.*') ? 'is-active' : '' }}">
         営業活動
       </a>
 

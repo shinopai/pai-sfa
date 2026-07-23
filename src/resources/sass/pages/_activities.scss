@@ -1,0 +1,39 @@
+@use "../base" as *;
+
+.activities {
+    padding: rem(32) 0;
+}
+
+.activities__header {
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: rem(24);
+}
+
+.activities__title {
+    @include font-set(heading);
+}
+
+.activities__table {
+    overflow-x: auto;
+}
+
+.activities__empty {
+    padding: rem(32);
+    text-align: center;
+    color: color(text-sub);
+}
+
+.activities__pagination {
+    margin-top: rem(24);
+}
+
+.activities__buttons {
+    justify-content: flex-end;
+    gap: rem(16);
+    margin-top: rem(32);
+}
+
+.activities__form {
+    justify-content: center;
+}

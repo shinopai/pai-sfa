@@ -51,6 +51,14 @@ class User extends Authenticatable
         return $this->hasMany(Deal::class);
     }
 
+    /**
+     * 担当営業
+     */
+    public function activities(): HasMany
+    {
+        return $this->hasMany(Activity::class);
+    }
+
     // 管理者かどうか
     public function isAdmin(): bool
     {

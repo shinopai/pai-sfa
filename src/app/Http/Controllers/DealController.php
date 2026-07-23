@@ -106,11 +106,6 @@ class DealController extends Controller
      */
     public function update(UpdateDealRequest $request, Deal $deal)
     {
-        // dd([
-        //     'request' => $request->amount,
-        //     'validated' => $request->validated()['amount'] ?? null,
-        //     'model_before' => $deal->amount,
-        // ]);
         $deal->update([
             'customer_id' => $request->customer_id,
             'user_id' => Auth::user()->isAdmin()

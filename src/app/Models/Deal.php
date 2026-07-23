@@ -59,10 +59,10 @@ class Deal extends Model
     /**
      * 営業活動
      */
-    // public function activities(): HasMany
-    // {
-    //     return $this->hasMany(Activity::class);
-    // }
+    public function activities(): HasMany
+    {
+        return $this->hasMany(Activity::class);
+    }
 
     /**
      * タスク

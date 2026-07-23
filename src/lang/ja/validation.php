@@ -77,7 +77,11 @@ return [
         'amount' => '商談金額',
         'status' => 'ステータス',
         'expected_contract_date' => '契約予定日',
-        'memo' => '備考'
+        'memo' => '備考',
+        'deal_id' => '商談',
+        'activity_type' => '活動種別',
+        'activity_date' => '活動日時',
+        'content' => '活動内容'
     ],
 
 ];
