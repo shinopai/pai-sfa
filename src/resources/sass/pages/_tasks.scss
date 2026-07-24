@@ -1,0 +1,39 @@
+@use "../base" as *;
+
+.tasks {
+    padding: rem(32) 0;
+}
+
+.tasks__header {
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: rem(24);
+}
+
+.tasks__title {
+    @include font-set(heading);
+}
+
+.tasks__table {
+    overflow-x: auto;
+}
+
+.tasks__empty {
+    padding: rem(32);
+    text-align: center;
+    color: color(text-sub);
+}
+
+.tasks__pagination {
+    margin-top: rem(24);
+}
+
+.tasks__buttons {
+    justify-content: flex-end;
+    gap: rem(16);
+    margin-top: rem(32);
+}
+
+.tasks__form {
+    justify-content: center;
+}

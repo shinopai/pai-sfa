@@ -32,7 +32,8 @@
         営業活動
       </a>
 
-      <a href="#" class="header__link {{ request()->routeIs('tasks.*') ? 'is-active' : '' }}">
+      <a href="{{ route('tasks.index') }}"
+        class="header__link {{ request()->routeIs('tasks.*') ? 'is-active' : '' }}">
         タスク
       </a>
 

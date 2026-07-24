@@ -5,6 +5,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DealController;
+use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -32,6 +33,10 @@ Route::middleware('auth')->group(function () {
 
     // 活動
     Route::resource('activities', ActivityController::class)
+        ->except(['show']);
+
+    // タスク
+    Route::resource('tasks', TaskController::class)
         ->except(['show']);
 });
 

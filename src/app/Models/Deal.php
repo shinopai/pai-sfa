@@ -67,8 +67,8 @@ class Deal extends Model
     /**
      * タスク
      */
-    // public function tasks(): HasMany
-    // {
-    //     return $this->hasMany(Task::class);
-    // }
+    public function tasks(): HasMany
+    {
+        return $this->hasMany(Task::class);
+    }
 }
