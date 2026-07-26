@@ -3,10 +3,14 @@ services:
     build:
       context: .
       dockerfile: docker/php/Dockerfile
+
+    user: '${UID}:${GID}'
+
     container_name: pai-sfa-app
     working_dir: /var/www/html
     volumes:
       - ./src:/var/www/html
+
     depends_on:
       db:
         condition: service_healthy

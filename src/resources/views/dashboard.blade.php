@@ -1,17 +1,136 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
-    </x-slot>
+@extends('layouts.app')
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    {{ __("You're logged in!") }}
-                </div>
-            </div>
-        </div>
+@section('title', 'ダッシュボード')
+
+@section('content')
+  <div class="dashboard">
+    @include('partials.alerts')
+
+    <div class="u-wrap">
+
+      <h2 class="dashboard__title">ダッシュボード</h2>
+
+      <div class="dashboard__cards">
+
+        <a href="{{ route('customers.index') }}" class="dashboard__card">
+          <p class="dashboard__card-title">顧客数</p>
+
+          <div class="dashboard__card-value">
+            <span class="dashboard__card-number">{{ $customerCount }}</span>
+            <span class="dashboard__card-unit">件</span>
+          </div>
+        </a>
+
+        <a href="{{ route('deals.index') }}" class="dashboard__card">
+          <p class="dashboard__card-title">商談数</p>
+
+          <div class="dashboard__card-value">
+            <span class="dashboard__card-number">{{ $dealCount }}</span>
+            <span class="dashboard__card-unit">件</span>
+          </div>
+        </a>
+
+        <a href="{{ route('tasks.index') }}" class="dashboard__card">
+          <p class="dashboard__card-title">未完了タスク</p>
+
+          <div class="dashboard__card-value">
+            <span class="dashboard__card-number">{{ $incompleteTaskCount }}</span>
+            <span class="dashboard__card-unit">件</span>
+          </div>
+        </a>
+
+      </div>
+
+      <div class="dashboard__contents">
+
+        <section class="dashboard__section">
+
+          <div class="dashboard__section-header">
+            <h2 class="dashboard__heading">最近更新した商談</h2>
+
+            <a href="{{ route('deals.index') }}" class="dashboard__link">
+              一覧を見る →
+            </a>
+          </div>
+
+          <div class="dashboard__table">
+            <table class="c-table">
+              <thead>
+                <tr>
+                  <th>商談名</th>
+                  <th>顧客名</th>
+                  <th>ステータス</th>
+                  <th>契約予定日</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                @forelse ($recentDeals as $deal)
+                  <tr>
+                    <td>{{ $deal->title }}</td>
+                    <td>{{ $deal->customer->company_name }}</td>
+                    <td>{{ $deal->status->label() }}</td>
+                    <td>{{ optional($deal->expected_contract_date)->format('Y/m/d') ?? '-' }}</td>
+                  </tr>
+                @empty
+                  <tr>
+                    <td colspan="4" class="dashboard__empty">
+                      商談は登録されていません。
+                    </td>
+                  </tr>
+                @endforelse
+              </tbody>
+            </table>
+          </div>
+
+        </section>
+
+        <section class="dashboard__section">
+
+          <div class="dashboard__section-header">
+            <h2 class="dashboard__heading">今日のタスク</h2>
+
+            <a href="{{ route('tasks.index') }}" class="dashboard__link">
+              一覧を見る →
+            </a>
+          </div>
+
+          <div class="dashboard__table">
+            <table class="c-table">
+              <thead>
+                <tr>
+                  <th>商談名</th>
+                  <th>タスク名</th>
+                  <th>期限日</th>
+                  <th>優先度</th>
+                  <th>完了</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                @forelse ($todayTasks as $task)
+                  <tr>
+                    <td>{{ $task->deal->title }}</td>
+                    <td>{{ $task->title }}</td>
+                    <td>{{ $task->due_date->format('Y/m/d') }}</td>
+                    <td>{{ $task->priority->label() }}</td>
+                    <td>{{ $task->is_completed ? '完了' : '未完了' }}</td>
+                  </tr>
+                @empty
+                  <tr>
+                    <td colspan="5" class="dashboard__empty">
+                      今日のタスクはありません。
+                    </td>
+                  </tr>
+                @endforelse
+              </tbody>
+            </table>
+          </div>
+
+        </section>
+
+      </div>
+
     </div>
-</x-app-layout>
+  </div>
+@endsection

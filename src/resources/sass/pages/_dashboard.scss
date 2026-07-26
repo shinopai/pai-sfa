@@ -1,0 +1,122 @@
+@use "../base" as *;
+
+.dashboard {
+    padding: rem(40) 0 rem(80);
+}
+
+.dashboard__title {
+    @include font-set("heading", 32);
+
+    margin-bottom: rem(32);
+    font-weight: 700;
+}
+
+.dashboard__cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: rem(24);
+    margin-bottom: rem(40);
+
+    @include max-screen("md") {
+        grid-template-columns: 1fr;
+    }
+}
+
+.dashboard__card {
+    display: block;
+    padding: rem(24);
+    border: 1px solid color("border");
+    border-radius: radius("md");
+    background-color: color("bg-main");
+    color: inherit;
+    text-decoration: none;
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.dashboard__card:hover {
+    box-shadow: 0 rem(4) rem(12) rgba(0, 0, 0, 0.08);
+}
+
+.dashboard__card-title {
+    @include font-set("note", 20);
+
+    margin-bottom: rem(12);
+    color: color("text-sub");
+}
+
+.dashboard__card-value {
+    display: flex;
+    align-items: flex-end;
+    gap: rem(4);
+}
+
+.dashboard__card-number {
+    font-size: rem(38);
+    line-height: 1;
+    font-weight: 700;
+    color: color("primary");
+}
+
+.dashboard__card-unit {
+    @include font-set("body", 24);
+
+    margin-bottom: rem(2);
+    color: color("text-sub");
+}
+
+.dashboard__contents {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: rem(32);
+
+    @include max-screen("lg") {
+        grid-template-columns: 1fr;
+    }
+}
+
+.dashboard__section {
+    padding: rem(24);
+    border: 1px solid color("border");
+    border-radius: radius("md");
+    background-color: color("bg-main");
+}
+
+.dashboard__section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: rem(20);
+}
+
+.dashboard__heading {
+    @include font-set("lead", 28);
+
+    font-weight: 700;
+}
+
+.dashboard__link {
+    @include font-set("note", 20);
+
+    color: color("primary");
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+}
+
+.dashboard__link:hover {
+    opacity: 0.7;
+}
+
+.dashboard__table {
+    overflow-x: auto;
+}
+
+.dashboard__empty {
+    @include font-set("body", 24);
+
+    padding: rem(48) rem(24);
+    color: color("text-sub");
+    text-align: center;
+    vertical-align: middle;
+}

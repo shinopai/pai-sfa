@@ -37,13 +37,21 @@
         タスク
       </a>
 
-      <form method="POST" action="{{ route('logout') }}">
-        @csrf
+      @auth
+        <form method="POST" action="{{ route('logout') }}">
+          @csrf
 
-        <button class="header__logout" type="submit">
-          ログアウト
-        </button>
-      </form>
+          <button class="header__logout" type="submit">
+            ログアウト
+          </button>
+        </form>
+      @endauth
+
+      @guest
+        <a class="header__link" href="{{ route('login') }}">
+          ログイン
+        </a>
+      @endguest
     </nav>
   </div>
 </header>
