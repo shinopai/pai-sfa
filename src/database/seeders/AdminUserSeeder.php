@@ -13,7 +13,7 @@ class AdminUserSeeder extends Seeder
      */
     public function run(): void
     {
-        User::updateOrCreate(
+        User::firstOrCreate(
             [
                 'email' => 'admin@example.com',
             ],
@@ -21,6 +21,7 @@ class AdminUserSeeder extends Seeder
                 'name' => '管理者',
                 'password' => Hash::make('password'),
                 'role' => 'admin',
+                'email_verified_at' => now(),
             ]
         );
     }

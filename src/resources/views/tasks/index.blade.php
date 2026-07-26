@@ -37,7 +37,7 @@
               <td>{{ $task->id }}</td>
               <td>{{ $task->deal->title }}</td>
               <td>{{ $task->deal->customer->company_name }}</td>
-              <td>{{ $task->deal->user->name }}</td>
+              <td>{{ $task->deal->customer->user->name }}</td>
               <td>{{ $task->title }}</td>
               <td>{{ $task->due_date->format('Y/m/d') }}</td>
               <td>{{ $task->priority->label() }}</td>

@@ -36,7 +36,7 @@
               <td>{{ $deal->id }}</td>
               <td>{{ $deal->title }}</td>
               <td>{{ $deal->customer->company_name }}</td>
-              <td>{{ $deal->user->name }}</td>
+              <td>{{ $deal->customer->user->name }}</td>
               <td>{{ $deal->amount ? number_format($deal->amount) . '円' : '-' }}</td>
               <td>{{ $deal->status->label() }}</td>
               <td>{{ $deal->expected_contract_date?->format('Y/m/d') ?? '-' }}</td>

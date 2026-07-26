@@ -35,7 +35,7 @@
               <td>{{ $activity->id }}</td>
               <td>{{ $activity->deal->title }}</td>
               <td>{{ $activity->deal->customer->company_name }}</td>
-              <td>{{ $activity->deal->user->name }}</td>
+              <td>{{ $activity->deal->customer->user->name }}</td>
               <td>{{ $activity->activity_type->label() }}</td>
               <td>{{ $activity->activity_date->format('Y/m/d H:i') }}</td>
               <td>{{ $activity->created_at->format('Y/m/d') }}</td>
