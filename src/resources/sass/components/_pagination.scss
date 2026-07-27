@@ -1,0 +1,58 @@
+@use "../base" as *;
+
+.c-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: rem(8);
+    margin-top: rem(32);
+}
+
+.c-pagination__link,
+.c-pagination__ellipsis {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: rem(40);
+    height: rem(40);
+    padding: 0 rem(12);
+
+    @include font-set("body", 16);
+
+    text-decoration: none;
+    border: 1px solid color("border");
+    border-radius: radius("md");
+    background-color: color("bg-main");
+    color: color("text-main");
+    transition:
+        background-color 0.2s,
+        color 0.2s,
+        border-color 0.2s;
+}
+
+.c-pagination__link:hover {
+    background-color: color("primary");
+    border-color: color("primary");
+    color: color("text-white");
+}
+
+.c-pagination__link--active {
+    background-color: color("primary");
+    border-color: color("primary");
+    color: color("text-white");
+    cursor: default;
+}
+
+.c-pagination__link--disabled {
+    background-color: color("bg-sub");
+    color: color("text-sub");
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.c-pagination__ellipsis {
+    border: none;
+    background: transparent;
+    min-width: auto;
+    padding: 0 rem(4);
+}

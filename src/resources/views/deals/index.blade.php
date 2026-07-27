@@ -14,19 +14,116 @@
       </a>
     </div>
 
+    <div class="c-search">
+      <form action="{{ route('deals.index') }}" method="GET" class="c-search__form">
+
+        <div class="c-search__group u-flex">
+          <input id="keyword" type="text" name="keyword" value="{{ request('keyword') }}" class="c-search__input"
+            placeholder="商談名・顧客名・担当営業・ステータスで検索">
+        </div>
+
+        <div class="c-search__actions u-flex">
+
+          <button type="submit" class="c-button c-button--primary">
+            検索
+          </button>
+
+          <a href="{{ route('deals.index') }}" class="c-button c-button--secondary">
+            リセット
+          </a>
+
+        </div>
+
+      </form>
+    </div>
+
     <div class="deals__table">
       <table class="c-table">
         <thead>
           <tr>
-            <th>ID</th>
-            <th>商談名</th>
+
+            <th>
+              <a
+                href="{{ route(
+                    'deals.index',
+                    array_merge(request()->query(), [
+                        'sort' => 'id',
+                        'direction' => request('sort') === 'id' && request('direction') === 'asc' ? 'desc' : 'asc',
+                    ]),
+                ) }}">
+                ID
+                @if (request('sort') === 'id')
+                  {{ request('direction') === 'asc' ? '▲' : '▼' }}
+                @else
+                  ⇅
+                @endif
+              </a>
+            </th>
+
+            <th>
+              <a
+                href="{{ route(
+                    'deals.index',
+                    array_merge(request()->query(), [
+                        'sort' => 'title',
+                        'direction' => request('sort') === 'title' && request('direction') === 'asc' ? 'desc' : 'asc',
+                    ]),
+                ) }}">
+                商談名
+                @if (request('sort') === 'title')
+                  {{ request('direction') === 'asc' ? '▲' : '▼' }}
+                @else
+                  ⇅
+                @endif
+              </a>
+            </th>
+
             <th>顧客名</th>
+
             <th>担当営業</th>
+
             <th>金額</th>
+
             <th>ステータス</th>
-            <th>契約予定日</th>
-            <th>登録日</th>
+
+            <th>
+              <a
+                href="{{ route(
+                    'deals.index',
+                    array_merge(request()->query(), [
+                        'sort' => 'expected_contract_date',
+                        'direction' => request('sort') === 'expected_contract_date' && request('direction') === 'asc' ? 'desc' : 'asc',
+                    ]),
+                ) }}">
+                契約予定日
+                @if (request('sort') === 'expected_contract_date')
+                  {{ request('direction') === 'asc' ? '▲' : '▼' }}
+                @else
+                  ⇅
+                @endif
+              </a>
+            </th>
+
+            <th>
+              <a
+                href="{{ route(
+                    'deals.index',
+                    array_merge(request()->query(), [
+                        'sort' => 'created_at',
+                        'direction' => request('sort') === 'created_at' && request('direction') === 'asc' ? 'desc' : 'asc',
+                    ]),
+                ) }}">
+                登録日
+                @if (request('sort') === 'created_at')
+                  {{ request('direction') === 'asc' ? '▲' : '▼' }}
+                @else
+                  ⇅
+                @endif
+              </a>
+            </th>
+
             <th>操作</th>
+
           </tr>
         </thead>
 

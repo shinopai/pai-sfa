@@ -17,17 +17,47 @@ class ActivityController extends Controller
      */
     public function index()
     {
-        $query = Activity::with(['deal.customer', 'deal.user']);
+        $keyword = request('keyword');
+        $sort = request('sort', 'id');
+        $direction = request('direction') === 'desc' ? 'desc' : 'asc';
+
+        $query = Activity::with(['deal.customer.user']);
 
         if (Auth::user()->isSales()) {
-            $query->whereHas('deal', function ($query) {
+            $query->whereHas('deal.customer', function ($query) {
                 $query->where('user_id', Auth::id());
             });
         }
 
+        $query->when($keyword, function ($query) use ($keyword) {
+            $query->where(function ($query) use ($keyword) {
+
+                // 商談名
+                $query->whereHas('deal', function ($query) use ($keyword) {
+                    $query->where('title', 'like', "%{$keyword}%");
+                })
+
+                    // 顧客名
+                    ->orWhereHas('deal.customer', function ($query) use ($keyword) {
+                        $query->where('company_name', 'like', "%{$keyword}%");
+                    })
+
+                    // 担当営業
+                    ->orWhereHas('deal.customer.user', function ($query) use ($keyword) {
+                        $query->where('name', 'like', "%{$keyword}%");
+                    });
+            });
+        });
+
+        if (in_array($sort, ['id', 'activity_date', 'created_at'])) {
+            $query->orderBy($sort, $direction);
+        } else {
+            $query->orderBy('id');
+        }
+
         $activities = $query
-            ->orderBy('id')
-            ->paginate(10);
+            ->paginate(10)
+            ->withQueryString();
 
         return view('activities.index', compact('activities'));
     }

@@ -1,0 +1,65 @@
+@use "../base" as *;
+
+.c-search {
+    margin-bottom: rem(24);
+    padding: rem(20);
+    background-color: color("bg-sub");
+    border: 1px solid color("border");
+    border-radius: radius("md");
+}
+
+.c-search__form {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: rem(16);
+
+    @include max-screen("md") {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
+
+.c-search__group {
+    display: flex;
+    flex: 1;
+    gap: rem(12);
+
+    @include max-screen("md") {
+        flex-direction: column;
+    }
+}
+
+.c-search__input,
+.c-search__select {
+    width: 100%;
+    padding: rem(10) rem(12);
+    border: 1px solid color("border");
+    border-radius: radius("sm");
+    background-color: color("bg-main");
+    color: color("text-main");
+
+    @include font-set("body", 24);
+
+    &:focus {
+        outline: none;
+        border-color: color("primary");
+    }
+}
+
+.c-search__actions {
+    display: flex;
+    gap: rem(12);
+    flex-shrink: 0;
+
+    @include max-screen("md") {
+        width: 100%;
+    }
+}
+
+.c-search__actions .c-button {
+    @include max-screen("md") {
+        flex: 1;
+        justify-content: center;
+    }
+}

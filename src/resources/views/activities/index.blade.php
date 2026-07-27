@@ -14,18 +14,96 @@
       </a>
     </div>
 
+    <div class="c-search">
+      <form action="{{ route('activities.index') }}" method="GET" class="c-search__form">
+
+        <div class="c-search__group u-flex">
+          <input id="keyword" type="text" name="keyword" value="{{ request('keyword') }}" class="c-search__input"
+            placeholder="商談名・顧客名・担当営業で検索">
+        </div>
+
+        <div class="c-search__actions u-flex">
+          <button type="submit" class="c-button c-button--primary">
+            検索
+          </button>
+
+          <a href="{{ route('activities.index') }}" class="c-button c-button--secondary">
+            リセット
+          </a>
+        </div>
+
+      </form>
+    </div>
+
     <div class="activities__table">
       <table class="c-table">
         <thead>
           <tr>
-            <th>ID</th>
+
+            <th>
+              <a
+                href="{{ route(
+                    'activities.index',
+                    array_merge(request()->query(), [
+                        'sort' => 'id',
+                        'direction' => request('sort') === 'id' && request('direction') === 'asc' ? 'desc' : 'asc',
+                    ]),
+                ) }}">
+                ID
+                @if (request('sort') === 'id')
+                  {{ request('direction') === 'asc' ? '▲' : '▼' }}
+                @else
+                  ⇅
+                @endif
+              </a>
+            </th>
+
             <th>商談名</th>
+
             <th>顧客名</th>
+
             <th>担当営業</th>
+
             <th>活動種別</th>
-            <th>活動日時</th>
-            <th>登録日</th>
+
+            <th>
+              <a
+                href="{{ route(
+                    'activities.index',
+                    array_merge(request()->query(), [
+                        'sort' => 'activity_date',
+                        'direction' => request('sort') === 'activity_date' && request('direction') === 'asc' ? 'desc' : 'asc',
+                    ]),
+                ) }}">
+                活動日時
+                @if (request('sort') === 'activity_date')
+                  {{ request('direction') === 'asc' ? '▲' : '▼' }}
+                @else
+                  ⇅
+                @endif
+              </a>
+            </th>
+
+            <th>
+              <a
+                href="{{ route(
+                    'activities.index',
+                    array_merge(request()->query(), [
+                        'sort' => 'created_at',
+                        'direction' => request('sort') === 'created_at' && request('direction') === 'asc' ? 'desc' : 'asc',
+                    ]),
+                ) }}">
+                登録日
+                @if (request('sort') === 'created_at')
+                  {{ request('direction') === 'asc' ? '▲' : '▼' }}
+                @else
+                  ⇅
+                @endif
+              </a>
+            </th>
+
             <th>操作</th>
+
           </tr>
         </thead>
 
@@ -48,6 +126,7 @@
 
                   <form action="{{ route('activities.destroy', $activity) }}" method="POST"
                     onsubmit="return confirm('この営業活動を削除しますか？');">
+
                     @csrf
                     @method('DELETE')
 

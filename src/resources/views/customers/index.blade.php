@@ -14,18 +14,96 @@
       </a>
     </div>
 
+    <div class="c-search">
+      <form action="{{ route('customers.index') }}" method="GET" class="c-search__form">
+
+        <div class="c-search__group u-flex">
+          <input id="keyword" type="text" name="keyword" value="{{ request('keyword') }}" class="c-search__input"
+            placeholder="会社名・担当者名・メールアドレス・担当営業で検索">
+        </div>
+
+        <div class="c-search__actions u-flex">
+          <button type="submit" class="c-button c-button--primary">
+            検索
+          </button>
+
+          <a href="{{ route('customers.index') }}" class="c-button c-button--secondary">
+            リセット
+          </a>
+        </div>
+
+      </form>
+    </div>
+
     <div class="customers__table">
       <table class="c-table">
         <thead>
           <tr>
-            <th>ID</th>
-            <th>会社名</th>
+
+            <th>
+              <a
+                href="{{ route(
+                    'customers.index',
+                    array_merge(request()->query(), [
+                        'sort' => 'id',
+                        'direction' => request('sort') === 'id' && request('direction') === 'asc' ? 'desc' : 'asc',
+                    ]),
+                ) }}">
+                ID
+                @if (request('sort') === 'id')
+                  {{ request('direction') === 'asc' ? '▲' : '▼' }}
+                @else
+                  ⇅
+                @endif
+              </a>
+            </th>
+
+            <th>
+              <a
+                href="{{ route(
+                    'customers.index',
+                    array_merge(request()->query(), [
+                        'sort' => 'company_name',
+                        'direction' => request('sort') === 'company_name' && request('direction') === 'asc' ? 'desc' : 'asc',
+                    ]),
+                ) }}">
+                会社名
+                @if (request('sort') === 'company_name')
+                  {{ request('direction') === 'asc' ? '▲' : '▼' }}
+                @else
+                  ⇅
+                @endif
+              </a>
+            </th>
+
             <th>担当者名</th>
+
             <th>メールアドレス</th>
+
             <th>電話番号</th>
+
             <th>担当営業</th>
-            <th>登録日</th>
+
+            <th>
+              <a
+                href="{{ route(
+                    'customers.index',
+                    array_merge(request()->query(), [
+                        'sort' => 'created_at',
+                        'direction' => request('sort') === 'created_at' && request('direction') === 'asc' ? 'desc' : 'asc',
+                    ]),
+                ) }}">
+                登録日
+                @if (request('sort') === 'created_at')
+                  {{ request('direction') === 'asc' ? '▲' : '▼' }}
+                @else
+                  ⇅
+                @endif
+              </a>
+            </th>
+
             <th>操作</th>
+
           </tr>
         </thead>
 
@@ -48,12 +126,14 @@
 
                   <form action="{{ route('customers.destroy', $customer) }}" method="POST"
                     onsubmit="return confirm('この顧客を削除しますか？');">
+
                     @csrf
                     @method('DELETE')
 
                     <button type="submit" class="c-button c-button--danger">
                       削除
                     </button>
+
                   </form>
 
                 </div>

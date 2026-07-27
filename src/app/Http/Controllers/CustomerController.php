@@ -21,15 +21,44 @@ class CustomerController extends Controller
      */
     public function index()
     {
+        $keyword = request('keyword');
+        $sort = request('sort', 'id');
+        $direction = request('direction') === 'desc' ? 'desc' : 'asc';
+
         $query = Customer::with('user');
 
-        if (Auth::user()->role === 'sales') {
+        if (Auth::user()->isSales()) {
             $query->where('user_id', Auth::id());
         }
 
+        $query->when($keyword, function ($query) use ($keyword) {
+            $query->where(function ($query) use ($keyword) {
+
+                // 会社名
+                $query->where('company_name', 'like', "%{$keyword}%")
+
+                    // 担当者名
+                    ->orWhere('contact_name', 'like', "%{$keyword}%")
+
+                    // メールアドレス
+                    ->orWhere('email', 'like', "%{$keyword}%")
+
+                    // 担当営業
+                    ->orWhereHas('user', function ($query) use ($keyword) {
+                        $query->where('name', 'like', "%{$keyword}%");
+                    });
+            });
+        });
+
+        if (in_array($sort, ['id', 'company_name', 'created_at'])) {
+            $query->orderBy($sort, $direction);
+        } else {
+            $query->orderBy('id');
+        }
+
         $customers = $query
-            ->orderBy('id')
-            ->paginate(10);
+            ->paginate(10)
+            ->withQueryString();
 
         return view('customers.index', compact('customers'));
     }
