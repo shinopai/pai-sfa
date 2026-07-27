@@ -14,26 +14,10 @@
       </a>
     </div>
 
-    <div class="c-search">
-      <form action="{{ route('customers.index') }}" method="GET" class="c-search__form">
-
-        <div class="c-search__group u-flex">
-          <input id="keyword" type="text" name="keyword" value="{{ request('keyword') }}" class="c-search__input"
-            placeholder="会社名・担当者名・メールアドレス・担当営業で検索">
-        </div>
-
-        <div class="c-search__actions u-flex">
-          <button type="submit" class="c-button c-button--primary">
-            検索
-          </button>
-
-          <a href="{{ route('customers.index') }}" class="c-button c-button--secondary">
-            リセット
-          </a>
-        </div>
-
-      </form>
-    </div>
+    @include('partials.search', [
+        'action' => route('customers.index'),
+        'placeholder' => '会社名・担当者名・担当営業で検索',
+    ])
 
     <div class="customers__table">
       <table class="c-table">
@@ -41,39 +25,19 @@
           <tr>
 
             <th>
-              <a
-                href="{{ route(
-                    'customers.index',
-                    array_merge(request()->query(), [
-                        'sort' => 'id',
-                        'direction' => request('sort') === 'id' && request('direction') === 'asc' ? 'desc' : 'asc',
-                    ]),
-                ) }}">
-                ID
-                @if (request('sort') === 'id')
-                  {{ request('direction') === 'asc' ? '▲' : '▼' }}
-                @else
-                  ⇅
-                @endif
-              </a>
+              @include('partials.sort-link', [
+                  'route' => 'customers.index',
+                  'column' => 'id',
+                  'label' => 'ID',
+              ])
             </th>
 
             <th>
-              <a
-                href="{{ route(
-                    'customers.index',
-                    array_merge(request()->query(), [
-                        'sort' => 'company_name',
-                        'direction' => request('sort') === 'company_name' && request('direction') === 'asc' ? 'desc' : 'asc',
-                    ]),
-                ) }}">
-                会社名
-                @if (request('sort') === 'company_name')
-                  {{ request('direction') === 'asc' ? '▲' : '▼' }}
-                @else
-                  ⇅
-                @endif
-              </a>
+              @include('partials.sort-link', [
+                  'route' => 'customers.index',
+                  'column' => 'company_name',
+                  'label' => '会社名',
+              ])
             </th>
 
             <th>担当者名</th>
@@ -85,21 +49,11 @@
             <th>担当営業</th>
 
             <th>
-              <a
-                href="{{ route(
-                    'customers.index',
-                    array_merge(request()->query(), [
-                        'sort' => 'created_at',
-                        'direction' => request('sort') === 'created_at' && request('direction') === 'asc' ? 'desc' : 'asc',
-                    ]),
-                ) }}">
-                登録日
-                @if (request('sort') === 'created_at')
-                  {{ request('direction') === 'asc' ? '▲' : '▼' }}
-                @else
-                  ⇅
-                @endif
-              </a>
+              @include('partials.sort-link', [
+                  'route' => 'customers.index',
+                  'column' => 'created_at',
+                  'label' => '登録日',
+              ])
             </th>
 
             <th>操作</th>
@@ -118,25 +72,11 @@
               <td>{{ $customer->user->name }}</td>
               <td>{{ $customer->created_at->format('Y/m/d') }}</td>
               <td>
-                <div class="c-table-actions u-flex">
-
-                  <a href="{{ route('customers.edit', $customer) }}" class="c-button c-button--secondary">
-                    編集
-                  </a>
-
-                  <form action="{{ route('customers.destroy', $customer) }}" method="POST"
-                    onsubmit="return confirm('この顧客を削除しますか？');">
-
-                    @csrf
-                    @method('DELETE')
-
-                    <button type="submit" class="c-button c-button--danger">
-                      削除
-                    </button>
-
-                  </form>
-
-                </div>
+                @include('partials.table-actions', [
+                    'editRoute' => route('customers.edit', $customer),
+                    'deleteRoute' => route('customers.destroy', $customer),
+                    'confirmMessage' => 'この顧客を削除しますか？',
+                ])
               </td>
             </tr>
           @empty

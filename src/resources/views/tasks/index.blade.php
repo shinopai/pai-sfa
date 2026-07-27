@@ -14,28 +14,10 @@
       </a>
     </div>
 
-    <div class="c-search">
-      <form action="{{ route('tasks.index') }}" method="GET" class="c-search__form">
-
-        <div class="c-search__group u-flex">
-          <input id="keyword" type="text" name="keyword" value="{{ request('keyword') }}" class="c-search__input"
-            placeholder="タスク名・商談名・顧客名・担当営業で検索">
-        </div>
-
-        <div class="c-search__actions u-flex">
-
-          <button type="submit" class="c-button c-button--primary">
-            検索
-          </button>
-
-          <a href="{{ route('tasks.index') }}" class="c-button c-button--secondary">
-            リセット
-          </a>
-
-        </div>
-
-      </form>
-    </div>
+    @include('partials.search', [
+        'action' => route('tasks.index'),
+        'placeholder' => 'タスク名・商談名・顧客名・担当営業で検索',
+    ])
 
     <div class="tasks__table">
       <table class="c-table">
@@ -43,21 +25,11 @@
           <tr>
 
             <th>
-              <a
-                href="{{ route(
-                    'tasks.index',
-                    array_merge(request()->query(), [
-                        'sort' => 'id',
-                        'direction' => request('sort') === 'id' && request('direction') === 'asc' ? 'desc' : 'asc',
-                    ]),
-                ) }}">
-                ID
-                @if (request('sort') === 'id')
-                  {{ request('direction') === 'asc' ? '▲' : '▼' }}
-                @else
-                  ⇅
-                @endif
-              </a>
+              @include('partials.sort-link', [
+                  'route' => 'tasks.index',
+                  'column' => 'id',
+                  'label' => 'ID',
+              ])
             </th>
 
             <th>商談名</th>
@@ -67,39 +39,19 @@
             <th>担当営業</th>
 
             <th>
-              <a
-                href="{{ route(
-                    'tasks.index',
-                    array_merge(request()->query(), [
-                        'sort' => 'title',
-                        'direction' => request('sort') === 'title' && request('direction') === 'asc' ? 'desc' : 'asc',
-                    ]),
-                ) }}">
-                タスク名
-                @if (request('sort') === 'title')
-                  {{ request('direction') === 'asc' ? '▲' : '▼' }}
-                @else
-                  ⇅
-                @endif
-              </a>
+              @include('partials.sort-link', [
+                  'route' => 'tasks.index',
+                  'column' => 'title',
+                  'label' => 'タスク名',
+              ])
             </th>
 
             <th>
-              <a
-                href="{{ route(
-                    'tasks.index',
-                    array_merge(request()->query(), [
-                        'sort' => 'due_date',
-                        'direction' => request('sort') === 'due_date' && request('direction') === 'asc' ? 'desc' : 'asc',
-                    ]),
-                ) }}">
-                期限日
-                @if (request('sort') === 'due_date')
-                  {{ request('direction') === 'asc' ? '▲' : '▼' }}
-                @else
-                  ⇅
-                @endif
-              </a>
+              @include('partials.sort-link', [
+                  'route' => 'tasks.index',
+                  'column' => 'due_date',
+                  'label' => '期限日',
+              ])
             </th>
 
             <th>優先度</th>
@@ -107,21 +59,11 @@
             <th>完了</th>
 
             <th>
-              <a
-                href="{{ route(
-                    'tasks.index',
-                    array_merge(request()->query(), [
-                        'sort' => 'created_at',
-                        'direction' => request('sort') === 'created_at' && request('direction') === 'asc' ? 'desc' : 'asc',
-                    ]),
-                ) }}">
-                登録日
-                @if (request('sort') === 'created_at')
-                  {{ request('direction') === 'asc' ? '▲' : '▼' }}
-                @else
-                  ⇅
-                @endif
-              </a>
+              @include('partials.sort-link', [
+                  'route' => 'tasks.index',
+                  'column' => 'created_at',
+                  'label' => '登録日',
+              ])
             </th>
 
             <th>操作</th>
@@ -142,24 +84,13 @@
               <td>{{ $task->is_completed ? '完了' : '未完了' }}</td>
               <td>{{ $task->created_at->format('Y/m/d') }}</td>
               <td>
-                <div class="c-table-actions u-flex">
-
-                  <a href="{{ route('tasks.edit', $task) }}" class="c-button c-button--secondary">
-                    編集
-                  </a>
-
-                  <form action="{{ route('tasks.destroy', $task) }}" method="POST"
-                    onsubmit="return confirm('このタスクを削除しますか？');">
-                    @csrf
-                    @method('DELETE')
-
-                    <button type="submit" class="c-button c-button--danger">
-                      削除
-                    </button>
-
-                  </form>
-
-                </div>
+              <td>
+                @include('partials.table-actions', [
+                    'editRoute' => route('tasks.edit', $task),
+                    'deleteRoute' => route('tasks.destroy', $task),
+                    'confirmMessage' => 'このタスクを削除しますか？',
+                ])
+              </td>
               </td>
             </tr>
           @empty

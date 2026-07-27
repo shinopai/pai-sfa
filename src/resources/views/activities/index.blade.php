@@ -14,26 +14,10 @@
       </a>
     </div>
 
-    <div class="c-search">
-      <form action="{{ route('activities.index') }}" method="GET" class="c-search__form">
-
-        <div class="c-search__group u-flex">
-          <input id="keyword" type="text" name="keyword" value="{{ request('keyword') }}" class="c-search__input"
-            placeholder="商談名・顧客名・担当営業で検索">
-        </div>
-
-        <div class="c-search__actions u-flex">
-          <button type="submit" class="c-button c-button--primary">
-            検索
-          </button>
-
-          <a href="{{ route('activities.index') }}" class="c-button c-button--secondary">
-            リセット
-          </a>
-        </div>
-
-      </form>
-    </div>
+    @include('partials.search', [
+        'action' => route('activities.index'),
+        'placeholder' => '商談名・顧客名・担当営業で検索',
+    ])
 
     <div class="activities__table">
       <table class="c-table">
@@ -41,21 +25,11 @@
           <tr>
 
             <th>
-              <a
-                href="{{ route(
-                    'activities.index',
-                    array_merge(request()->query(), [
-                        'sort' => 'id',
-                        'direction' => request('sort') === 'id' && request('direction') === 'asc' ? 'desc' : 'asc',
-                    ]),
-                ) }}">
-                ID
-                @if (request('sort') === 'id')
-                  {{ request('direction') === 'asc' ? '▲' : '▼' }}
-                @else
-                  ⇅
-                @endif
-              </a>
+              @include('partials.sort-link', [
+                  'route' => 'activities.index',
+                  'column' => 'id',
+                  'label' => 'ID',
+              ])
             </th>
 
             <th>商談名</th>
@@ -67,39 +41,19 @@
             <th>活動種別</th>
 
             <th>
-              <a
-                href="{{ route(
-                    'activities.index',
-                    array_merge(request()->query(), [
-                        'sort' => 'activity_date',
-                        'direction' => request('sort') === 'activity_date' && request('direction') === 'asc' ? 'desc' : 'asc',
-                    ]),
-                ) }}">
-                活動日時
-                @if (request('sort') === 'activity_date')
-                  {{ request('direction') === 'asc' ? '▲' : '▼' }}
-                @else
-                  ⇅
-                @endif
-              </a>
+              @include('partials.sort-link', [
+                  'route' => 'activities.index',
+                  'column' => 'activity_date',
+                  'label' => '活動日時',
+              ])
             </th>
 
             <th>
-              <a
-                href="{{ route(
-                    'activities.index',
-                    array_merge(request()->query(), [
-                        'sort' => 'created_at',
-                        'direction' => request('sort') === 'created_at' && request('direction') === 'asc' ? 'desc' : 'asc',
-                    ]),
-                ) }}">
-                登録日
-                @if (request('sort') === 'created_at')
-                  {{ request('direction') === 'asc' ? '▲' : '▼' }}
-                @else
-                  ⇅
-                @endif
-              </a>
+              @include('partials.sort-link', [
+                  'route' => 'activities.index',
+                  'column' => 'created_at',
+                  'label' => '登録日',
+              ])
             </th>
 
             <th>操作</th>
@@ -118,25 +72,11 @@
               <td>{{ $activity->activity_date->format('Y/m/d H:i') }}</td>
               <td>{{ $activity->created_at->format('Y/m/d') }}</td>
               <td>
-                <div class="c-table-actions u-flex">
-
-                  <a href="{{ route('activities.edit', $activity) }}" class="c-button c-button--secondary">
-                    編集
-                  </a>
-
-                  <form action="{{ route('activities.destroy', $activity) }}" method="POST"
-                    onsubmit="return confirm('この営業活動を削除しますか？');">
-
-                    @csrf
-                    @method('DELETE')
-
-                    <button type="submit" class="c-button c-button--danger">
-                      削除
-                    </button>
-
-                  </form>
-
-                </div>
+                @include('partials.table-actions', [
+                    'editRoute' => route('activities.edit', $activity),
+                    'deleteRoute' => route('activities.destroy', $activity),
+                    'confirmMessage' => 'この営業活動を削除しますか？',
+                ])
               </td>
             </tr>
           @empty
