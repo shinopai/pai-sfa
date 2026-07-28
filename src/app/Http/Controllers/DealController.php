@@ -17,15 +17,45 @@ class DealController extends Controller
      */
     public function index()
     {
-        $query = Deal::with(['customer', 'user']);
+        $keyword = request('keyword');
+        $sort = request('sort', 'id');
+        $direction = request('direction') === 'desc' ? 'desc' : 'asc';
+
+        $query = Deal::with('customer.user');
 
         if (Auth::user()->isSales()) {
-            $query->where('user_id', Auth::id());
+            $query->whereHas('customer', function ($query) {
+                $query->where('user_id', Auth::id());
+            });
+        }
+
+        $query->when($keyword, function ($query) use ($keyword) {
+            $query->where(function ($query) use ($keyword) {
+
+                // 商談名
+                $query->where('title', 'like', "%{$keyword}%")
+
+                    // 顧客名
+                    ->orWhereHas('customer', function ($query) use ($keyword) {
+                        $query->where('company_name', 'like', "%{$keyword}%");
+                    })
+
+                    // 担当営業
+                    ->orWhereHas('customer.user', function ($query) use ($keyword) {
+                        $query->where('name', 'like', "%{$keyword}%");
+                    });
+            });
+        });
+
+        if (in_array($sort, ['id', 'title', 'expected_contract_date', 'created_at'])) {
+            $query->orderBy($sort, $direction);
+        } else {
+            $query->orderBy('id');
         }
 
         $deals = $query
-            ->orderBy('id')
-            ->paginate(10);
+            ->paginate(10)
+            ->withQueryString();
 
         return view('deals.index', compact('deals'));
     }
