@@ -7,11 +7,17 @@
     @include('partials.alerts')
 
     <div class="customers__header u-flex">
-      <h1 class="customers__title">顧客管理</h1>
+      <h2 class="customers__title">顧客管理</h2>
 
-      <a href="{{ route('customers.create') }}" class="c-button c-button--primary">
-        新規登録
-      </a>
+      <div class="customers__actions u-flex">
+        <a href="{{ route('customers.export') }}" class="c-button c-button--secondary">
+          CSVエクスポート
+        </a>
+
+        <a href="{{ route('customers.create') }}" class="c-button c-button--primary">
+          新規登録
+        </a>
+      </div>
     </div>
 
     @include('partials.search', [

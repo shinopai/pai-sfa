@@ -27,6 +27,10 @@ Route::middleware('auth')->group(function () {
         ->name('dashboard');
 
     // 顧客
+    // csv
+    Route::get('customers/export', [CustomerController::class, 'export'])
+        ->name('customers.export');
+
     Route::resource('customers', CustomerController::class)->except(['show']);
 
     // 商談

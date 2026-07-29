@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Customer\StoreCustomerRequest;
 use App\Http\Requests\Customer\UpdateCustomerRequest;
-use Illuminate\Http\Request;
 use App\Models\Customer;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use App\Services\CustomerExportService;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class CustomerController extends Controller
 {
@@ -153,5 +154,13 @@ class CustomerController extends Controller
         return redirect()
             ->route('customers.index')
             ->with('success', '顧客を削除しました。');
+    }
+
+    /**
+     * Export
+     */
+    public function export(CustomerExportService $service): StreamedResponse
+    {
+        return $service->export();
     }
 }
