@@ -10,6 +10,10 @@
       <h2 class="customers__title">顧客管理</h2>
 
       <div class="customers__actions u-flex">
+        <a href="{{ route('customers.import') }}" class="c-button c-button--secondary">
+          CSVインポート
+        </a>
+
         <a href="{{ route('customers.export') }}" class="c-button c-button--secondary">
           CSVエクスポート
         </a>

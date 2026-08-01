@@ -27,7 +27,15 @@ Route::middleware('auth')->group(function () {
         ->name('dashboard');
 
     // 顧客
-    // csv
+
+    // csvインポート
+    Route::get('customers/import', [CustomerController::class, 'showImport'])
+        ->name('customers.import');
+
+    Route::post('customers/import', [CustomerController::class, 'import'])
+        ->name('customers.import.store');
+
+    // csvエクスポート
     Route::get('customers/export', [CustomerController::class, 'export'])
         ->name('customers.export');
 

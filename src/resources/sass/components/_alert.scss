@@ -27,3 +27,13 @@
     background: rgba(255, 193, 7, 0.15);
     border-color: color(warning);
 }
+
+.c-alert--info {
+    color: color(primary);
+    background: rgba(13, 110, 253, 0.1);
+    border-color: color(primary);
+}
+
+.c-alert li + li {
+    margin-top: rem(4);
+}

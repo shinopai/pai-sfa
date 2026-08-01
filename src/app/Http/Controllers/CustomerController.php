@@ -4,19 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Customer\StoreCustomerRequest;
 use App\Http\Requests\Customer\UpdateCustomerRequest;
+use App\Http\Requests\Customer\CustomerImportRequest;
+use App\Services\CustomerImportService;
+use App\Services\CustomerExportService;
 use App\Models\Customer;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use App\Services\CustomerExportService;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Illuminate\Http\RedirectResponse;
+
 
 class CustomerController extends Controller
 {
-    // public function __construct()
-    // {
-    //     $this->authorizeResource(Customer::class, 'customer');
-    // }
-
     /**
      * Display a listing of the resource.
      */
@@ -162,5 +161,37 @@ class CustomerController extends Controller
     public function export(CustomerExportService $service): StreamedResponse
     {
         return $service->export();
+    }
+
+    /**
+     * Import view
+     */
+    public function showImport()
+    {
+        return view('customers.import');
+    }
+
+    /**
+     * Import
+     */
+    public function import(
+        CustomerImportRequest $request,
+        CustomerImportService $service
+    ): RedirectResponse {
+        $result = $service->import(
+            $request->file('csv')
+        );
+
+        if ($result['failed'] > 0) {
+            return redirect()
+                ->route('customers.import')
+                ->withInput()
+                ->with('result', $result);
+        }
+
+        return redirect()
+            ->route('customers.import')
+            ->with('success', 'CSVをインポートしました。')
+            ->with('result', $result);
     }
 }
