@@ -8,7 +8,6 @@ use App\Models\Task;
 use App\Models\Activity;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class DashboardService
 {
@@ -17,7 +16,6 @@ class DashboardService
         $customerQuery = $this->customerQuery();
         $dealQuery = $this->dealQuery();
         $taskQuery = $this->taskQuery();
-        // $activityQuery = $this->activityQuery();
 
         return [
             'customerCount' => $customerQuery->count(),
@@ -111,20 +109,20 @@ class DashboardService
 
     private function monthlyDeals(): array
     {
+        // 今年のデータを取得し、Collectionの groupBy で月毎にカウント（DB依存を解消）
         $results = $this->dealQuery()
-            ->selectRaw('EXTRACT(MONTH FROM created_at) AS month')
-            ->selectRaw('COUNT(*) AS total')
+            ->select('created_at')
             ->whereYear('created_at', now()->year)
-            ->groupBy(DB::raw('EXTRACT(MONTH FROM created_at)'))
-            ->orderBy(DB::raw('EXTRACT(MONTH FROM created_at)'))
-            ->pluck('total', 'month');
+            ->get()
+            ->groupBy(fn($deal) => (int) $deal->created_at->format('m'))
+            ->map(fn($group) => $group->count());
 
         $labels = [];
         $data = [];
 
         for ($month = 1; $month <= 12; $month++) {
             $labels[] = "{$month}月";
-            $data[] = (int) ($results[$month] ?? 0);
+            $data[] = (int) ($results->get($month) ?? 0);
         }
 
         return [
@@ -160,20 +158,20 @@ class DashboardService
 
     private function monthlyActivities(): array
     {
+        // 今年のデータを取得し、Collectionの groupBy で月毎にカウント（DB依存を解消）
         $results = $this->activityQuery()
-            ->selectRaw('EXTRACT(MONTH FROM activity_date) AS month')
-            ->selectRaw('COUNT(*) AS total')
+            ->select('activity_date')
             ->whereYear('activity_date', now()->year)
-            ->groupBy(DB::raw('EXTRACT(MONTH FROM activity_date)'))
-            ->orderBy(DB::raw('EXTRACT(MONTH FROM activity_date)'))
-            ->pluck('total', 'month');
+            ->get()
+            ->groupBy(fn($activity) => (int) \Carbon\Carbon::parse($activity->activity_date)->format('m'))
+            ->map(fn($group) => $group->count());
 
         $labels = [];
         $data = [];
 
         for ($month = 1; $month <= 12; $month++) {
             $labels[] = "{$month}月";
-            $data[] = (int) ($results[$month] ?? 0);
+            $data[] = (int) ($results->get($month) ?? 0);
         }
 
         return [
