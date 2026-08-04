@@ -41,6 +41,49 @@
 
       </div>
 
+      <div class="dashboard__charts">
+
+        <section class="dashboard__chart-card">
+          <div class="dashboard__section-header">
+            <h2 class="dashboard__heading">月別商談件数</h2>
+          </div>
+          <div class="dashboard__chart-wrapper u-flex">
+            <canvas id="monthlyDealsChart" data-chart='@json($monthlyDeals)'></canvas>
+          </div>
+        </section>
+
+        <section class="dashboard__chart-card">
+          <div class="dashboard__section-header">
+            <h2 class="dashboard__heading">商談ステータス割合</h2>
+          </div>
+          <div class="dashboard__chart-wrapper u-flex">
+            <canvas id="dealStatusChart" data-chart='@json($dealStatus)'></canvas>
+          </div>
+        </section>
+
+        <section class="dashboard__chart-card">
+          <div class="dashboard__section-header">
+            <h2 class="dashboard__heading">月別営業活動件数</h2>
+          </div>
+          <div class="dashboard__chart-wrapper u-flex">
+            <canvas id="monthlyActivitiesChart" data-chart='@json($monthlyActivities)'></canvas>
+          </div>
+        </section>
+
+        <section class="dashboard__chart-card">
+          <div class="dashboard__section-header">
+            <h2 class="dashboard__heading">タスク完了率</h2>
+          </div>
+          <div class="dashboard__chart-wrapper u-flex">
+            <canvas id="taskCompletionChart" data-chart='@json($taskCompletion)'></canvas>
+          </div>
+        </section>
+
+        <script>
+          window.dashboardCharts = true;
+        </script>
+      </div>
+
       <div class="dashboard__contents">
 
         <section class="dashboard__section">
