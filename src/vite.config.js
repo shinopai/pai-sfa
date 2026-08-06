@@ -15,4 +15,8 @@ export default defineConfig({
             host: "localhost",
         },
     },
+    // resources/images 内のファイルを処理対象に含める
+    build: {
+        assetsInlineLimit: 0,
+    },
 });
