@@ -8,6 +8,8 @@ php artisan storage:link || true
 
 php artisan migrate --force
 
+php artisan db:seed --class=AdminUserSeeder --force
+
 php artisan optimize:clear
 php artisan optimize
 php artisan view:cache
